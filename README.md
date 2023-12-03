@@ -12,3 +12,7 @@ helm upgrade -i --create-namespace --namespace kube-argocd argocd ./charts/argo-
 ```shell
 kubectl port-forward service/argocd-server -n kube-argocd 8080:443
 ```
+
+```shell
+helm install -n kube-argocd argocd-apps argo/argocd-apps --version 1.2.0 --values ./values/argocd-apps.yaml 
+```
