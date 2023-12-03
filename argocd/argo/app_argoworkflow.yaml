@@ -23,8 +23,8 @@ spec:
         factor: 2
         maxDuration: 10m
   source:
-    chart: argo-workflows
-    repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 0.13.1
+    path: charts/argo-workflows
+    repoURL: https://github.com/navyzet/local-argo.git
+    targetRevision: HEAD
     helm:
       releaseName: argoworkflow
