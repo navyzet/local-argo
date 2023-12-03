@@ -22,7 +22,7 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 10m
-  source:K
+  source:
     chart: argo-workflows
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 0.13.1
