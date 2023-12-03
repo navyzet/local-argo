@@ -1,0 +1,12 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argo
+  annotations:
+    argocd.argoproj.io/sync-options: >-
+      Delete=false,
+      Force=false,
+      Prune=false,
+      Replace=false,
+      ServerSideApply=true
