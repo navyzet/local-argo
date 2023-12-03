@@ -13,3 +13,6 @@ spec:
     - "*"
   sourceNamespaces:
     - "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
