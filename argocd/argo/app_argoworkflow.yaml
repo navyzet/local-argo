@@ -1,0 +1,28 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argoworkflow
+spec:
+  destination:
+    namespace: argo
+    server: "https://kubernetes.default.svc"
+  project: infra
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - FailOnSharedResource=true
+    retry:
+      limit: 15
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 10m
+  source:
+    path: charts/argo-workflows
+    repoURL: https://github.com/navyzet/local-argo.git
+    targetRevision: HEAD
+    helm:
+      releaseName: argoworkflow
