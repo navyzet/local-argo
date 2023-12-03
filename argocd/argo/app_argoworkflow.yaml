@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     namespace: argo
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
   project: test
   syncPolicy:
     automated:
@@ -26,5 +26,3 @@ spec:
     targetRevision: HEAD
     helm:
       releaseName: argoworkflow
-      valueFiles:
-        - values.yaml
