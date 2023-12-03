@@ -5,9 +5,9 @@ metadata:
   name: argoworkflow
 spec:
   destination:
-    namespace: test
+    namespace: argo
     server: "https://kubernetes.default.svc"
-  project: default
+  project: test
   syncPolicy:
     automated:
       prune: true
