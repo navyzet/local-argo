@@ -1,0 +1,8 @@
+configs:
+  secret:
+    argocdServerAdminPassword: '$2y$10$oOy6rIuhcvRl8E8MARUEq.3UMcNA0MO0ymCUNH7yOySTWfFS8YM2a' # admin: admin
+  repositories:
+    infra:
+      name: infra
+      type: git
+      url: https://github.com/navyzet/local-argo.git
