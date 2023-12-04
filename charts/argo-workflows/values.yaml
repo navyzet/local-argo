@@ -1,4 +1,6 @@
 images:
+  # -- Common tag for Argo Workflows images. Defaults to `.Chart.AppVersion`.
+  tag: ""
   # -- imagePullPolicy to apply to all containers
   pullPolicy: Always
   # -- Secrets with credentials to pull images from a private registry
@@ -45,7 +47,7 @@ controller:
     registry: quay.io
     # -- Registry to use for the controller
     repository: argoproj/workflow-controller
-    # -- Overrides the image tag whose default is the chart appVersion.
+    # -- Image tag for the workflow controller. Defaults to `.Values.images.tag`.
     tag: ""
   # -- parallelism dictates how many workflows can be running at the same time
   parallelism:
@@ -64,6 +66,8 @@ controller:
   namespaceParallelism:
   # -- Resolves ongoing, uncommon AWS EKS bug: https://github.com/argoproj/argo-workflows/pull/4224
   initialDelay:
+  # -- deploymentAnnotations is an optional map of annotations to be applied to the controller Deployment
+  deploymentAnnotations: {}
   # -- podAnnotations is an optional map of annotations to be applied to the controller Pods
   podAnnotations: {}
   # -- Optional labels to add to the controller pods
@@ -124,8 +128,6 @@ controller:
 
   # -- Number of workflow workers
   workflowWorkers: # 32
-  # -- Number of pod workers
-  podWorkers: # 32
   # -- Restricts the Workflows that the controller will process.
   # Only valid for 2.9+
   workflowRestrictions: {}
@@ -170,7 +172,7 @@ controller:
 
   # -- Specifies the container runtime interface to use (one of: `docker`, `kubelet`, `k8sapi`, `pns`, `emissary`)
   ## Ref: https://argoproj.github.io/argo-workflows/workflow-executors/
-  containerRuntimeExecutor: docker
+  containerRuntimeExecutor: emissary
   # -- Specifies the executor to use. This has precedence over `controller.containerRuntimeExecutor`.
   containerRuntimeExecutors: []
     # - name: emissary
@@ -254,11 +256,24 @@ controller:
   # -- Configure Argo Server to show custom [links]
   ## Ref: https://argoproj.github.io/argo-workflows/links/
   links: []
+  # -- Set ui navigation bar background color
+  navColor: ""
   clusterWorkflowTemplates:
     # -- Create a ClusterRole and CRB for the controller to access ClusterWorkflowTemplates.
     enabled: true
   # -- Extra containers to be added to the controller deployment
   extraContainers: []
+
+# mainContainer adds default config for main container that could be overriden in workflows template
+mainContainer:
+  # -- imagePullPolicy to apply to Workflow main container
+  imagePullPolicy: Always
+  # -- Resource limits and requests for the Workflow main container
+  resources: {}
+  # -- Adds environment variables for the Workflow main container
+  env: {}
+  # -- sets security context for the Workflow main container
+  securityContext: {}
 
 # executor controls how the init and wait container should be customized
 executor:
@@ -267,7 +282,7 @@ executor:
     registry: quay.io
     # -- Repository to use for the Workflow Executors
     repository: argoproj/argoexec
-    # -- Overrides the image tag whose default is the chart appVersion.
+    # -- Image tag for the workflow executor. Defaults to `.Values.images.tag`.
     tag: ""
   # -- Resource limits and requests for the Workflow Executors
   resources: {}
@@ -289,8 +304,10 @@ server:
     registry: quay.io
     # -- Repository to use for the server
     repository: argoproj/argocli
-    # -- Overrides the image tag whose default is the chart appVersion.
+    # -- Image tag for the Argo Workflows server. Defaults to `.Values.images.tag`.
     tag: ""
+  # -- optional map of annotations to be applied to the ui Deployment
+  deploymentAnnotations: {}
   # -- optional map of annotations to be applied to the ui Pods
   podAnnotations: {}
   # -- Optional labels to add to the UI pods
@@ -485,7 +502,8 @@ artifactRepository:
     secretKeySecret:
       # name: <releaseName>-minio
       key: secretkey
-    insecure: true
+    # insecure will disable TLS. Primarily used for minio installs not configured with TLS
+    insecure: false
     # bucket:
     # endpoint:
     # region:
