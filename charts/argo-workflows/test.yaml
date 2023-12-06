@@ -1,0 +1,4 @@
+controller:
+  workflowNamespaces:
+    - argo
+  containerRuntimeExecutor: k8sapi
