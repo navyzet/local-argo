@@ -104,8 +104,26 @@ Return the appropriate apiVersion for ingress
 {{- end -}}
 
 {{/*
+Return the appropriate apiVersion for pod disruption budget
+*/}}
+{{- define "argo-workflows.podDisruptionBudget.apiVersion" -}}
+{{- if semverCompare "<1.21-0" (include "argo-workflows.kubeVersion" $) -}}
+{{- print "policy/v1beta1" -}}
+{{- else -}}
+{{- print "policy/v1" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the target Kubernetes version
 */}}
 {{- define "argo-workflows.kubeVersion" -}}
   {{- default .Capabilities.KubeVersion.Version .Values.kubeVersionOverride }}
+{{- end -}}
+
+{{/*
+Return the default Argo Workflows app version
+*/}}
+{{- define "argo-workflows.defaultTag" -}}
+  {{- default .Chart.AppVersion .Values.images.tag }}
 {{- end -}}

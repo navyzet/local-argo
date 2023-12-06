@@ -5,6 +5,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ template "argo-workflows.fullname" $ }}-workflow
+  labels:
+    {{- include "argo-workflows.labels" (dict "context" $ "component" $.Values.controller.name "name" $.Values.controller.name) | nindent 4 }}
     {{- with $namespace }}
   namespace: {{ . }}
     {{- end }}
@@ -24,6 +26,33 @@ rules:
     verbs:
       - get
       - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods/exec
+    verbs:
+      - create
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflowtaskresults
+    verbs:
+      - create
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflowtasksets
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflowtasksets/status
+      {{/* TODO: This resource is for app version <= v3.2, so please remove it when app version v3.2 is no more used. */}}
+      - workflowtasksets
+    verbs:
+      - patch
   {{- end }}
 
 {{- end }}
