@@ -1,6 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: example=navyzet/helm-example
+    argocd-image-updater.argoproj.io/example.allow-tags: regexp:^exness-dev-[0-9a-z]{8}$
+    argocd-image-updater.argoproj.io/update-strategy: "latest"
+    argocd-image-updater.argoproj.io/force-update: "true"
+    # argocd-image-updater.argoproj.io/pull-secret: "pullsecret:example/gitlab-secret"
+    argocd-image-updater.argoproj.io/example.helm.image-name: "nginx-example.image.repository"
+    argocd-image-updater.argoproj.io/example.helm.image-tag: "nginx-example.image.tag"
   name: example
   namespace: kube-argocd
 spec:
