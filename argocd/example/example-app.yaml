@@ -10,7 +10,7 @@ metadata:
     argocd-image-updater.argoproj.io/example.helm.image-name: "nginx-example.image.repository"
     argocd-image-updater.argoproj.io/example.helm.image-tag: "nginx-example.image.tag"
   name: example
-  namespace: kube-argocd
+  namespace: example
 spec:
   destination:
     namespace: example
