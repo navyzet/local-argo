@@ -24,7 +24,8 @@ spec:
     path: charts/example
     repoURL: https://git.exness.io/nikita.lipchik/helm-example.git
     targetRevision: HEAD
-    values: |
-      nginx-example:
-        ingress:
-          enabled: true
+    helm:
+      values: |
+        nginx-example:
+          ingress:
+            enabled: true
