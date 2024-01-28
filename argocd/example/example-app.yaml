@@ -16,11 +16,15 @@ spec:
     namespace: example
     server: https://kubernetes.default.svc
   project: test
-  source:
-    path: charts/example
-    repoURL: https://git.exness.io/nikita.lipchik/helm-example.git
-    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+  source:
+    path: charts/example
+    repoURL: https://git.exness.io/nikita.lipchik/helm-example.git
+    targetRevision: HEAD
+    values: |
+      nginx-example:
+        ingress:
+          enabled: true
